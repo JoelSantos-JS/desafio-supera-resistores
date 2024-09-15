@@ -2,36 +2,24 @@ package org.example.desafio;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Resistores {
 
 
 
 
-    private static  final HashMap<Integer, String> colorMap = new HashMap<>();
+    private static final String[] colorMap = {"preto", "marrom", "vermelho", "laranja", "amarelo", "verde", "azul", "violeta", "cinza", "branco"};
 
-    static  {
-        colorMap.put(0, "preto");
-        colorMap.put(1, "marrom");
-        colorMap.put(2, "vermelho");
-        colorMap.put(3, "laranja");
-        colorMap.put(4, "amarelo");
-        colorMap.put(5, "verde");
-        colorMap.put(6, "azul");
-        colorMap.put(7, "violeta");
-        colorMap.put(8, "cinza");
-        colorMap.put(9, "branco");
-
-    }
 
 
     public static final String  convertValueInColor(String input) {
-            input = input.replace(" ohms", "");
+            input = input.replace(" ohms", "").trim();
 
 
 
             double value;
-            int multiplier = 0;
+
 
 
             if(input.contains("k")) {
@@ -44,18 +32,25 @@ public class Resistores {
             }
 
 
-            String valueStr = String.valueOf((int) value);
+            int intValue = (int) Math.round(value);
+
+            String valueStr = String.valueOf(intValue);
 
             int firstDigit = Character.getNumericValue(valueStr.charAt(0));
-             int secondDigit = Character.getNumericValue(valueStr.charAt(0));
+             int secondDigit = (valueStr.length() > 1) ?  Character.getNumericValue(valueStr.charAt(1)) : 0;
 
 
-             multiplier = valueStr.length() -2;
+            int  multiplier = valueStr.length() -2;
 
 
-             String firstColor = colorMap.get(firstDigit);
-             String secondColor = colorMap.get(secondDigit);
-             String multiplierColor = colorMap.get(multiplier);
+             if(multiplier < 0) {
+                 multiplier = 0;
+             }
+
+
+             String firstColor = colorMap[firstDigit];
+             String secondColor = colorMap[secondDigit];
+             String multiplierColor = colorMap[multiplier];
 
 
              String toleranceColor = "dourado";
@@ -69,8 +64,15 @@ public class Resistores {
 
 
     public static void main(String[] args) {
-
         System.out.println(convertValueInColor("220 ohms"));
+        System.out.println(convertValueInColor("2M ohms"));
+        System.out.println(convertValueInColor("4.7k ohms"));
+        System.out.println(convertValueInColor("10 ohms"));
+        System.out.println(convertValueInColor("100 ohms"));
+        System.out.println(convertValueInColor("330 ohms"));
+        System.out.println(convertValueInColor("470 ohms"));
+        System.out.println(convertValueInColor("680 ohms"));
+        System.out.println(convertValueInColor("1k ohms"));
     }
 
 }
